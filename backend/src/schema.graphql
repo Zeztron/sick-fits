@@ -13,6 +13,9 @@ type Mutation {
         description: String
         price: Int
     ): Item!
+    deleteItem(
+        id: ID!
+    ): Item
 }
 
 type Query {

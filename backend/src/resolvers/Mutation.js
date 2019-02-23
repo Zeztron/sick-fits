@@ -12,7 +12,7 @@ const Mutations = {
     },
 
     updateItem(parent, args, ctx, info) {
-        // First take a cope of the updates
+        // First take a scope of the updates
         const updates = { ... args };
         // Remove the ID from the updates
         delete updates.id;
@@ -23,6 +23,16 @@ const Mutations = {
                 id: args.id
             }
         }, info);
+    },
+
+    async deleteItem(parent, args, ctx, info) {
+        const where = { id: args.id };
+        // Find the item
+        const item = await ctx.db.query.item({ where }, `{ id, title }`);
+        // Check if they own that item or have permission
+        // TODO
+        // Delete it
+        return ctx.db.mutation.deleteItem({ where }, info);
     }
 };
 
