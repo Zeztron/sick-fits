@@ -4,15 +4,5 @@
     "titleBar.inactiveForeground": "#000000CC",
     "titleBar.activeBackground": "#FFC600",
     "titleBar.inactiveBackground": "#FFC600CC"
-  },
-  "emojisense.markupCompletionsEnabled": false,
-  "emojisense.languages": {
-    "markdown": true,
-    "plaintext": {
-      "markupCompletionsEnabled": false,
-      "emojiDecoratorsEnabled": false
-    },
-    "git-commit": true,
-    "javascript": true
   }
 }
