@@ -31,7 +31,6 @@ const ItemsList = styled.div`
     margin: 0 auto;
 `;
 
-
 export default class Items extends Component {
     render() {
         return (
