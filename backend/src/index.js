@@ -9,7 +9,6 @@ server.express.use(cookieParser());
 
 // TODO user express middleware to populate current user
 
-
 server.start({
     cors: {
         credentials: true,

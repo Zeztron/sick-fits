@@ -16,7 +16,7 @@ const Mutations = {
 
     updateItem(parent, args, ctx, info) {
         // First take a scope of the updates
-        const updates = { ... args };
+        const updates = { ... args};
         // Remove the ID from the updates
         delete updates.id;
         // Run the update method
