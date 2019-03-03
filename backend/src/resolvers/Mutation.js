@@ -129,7 +129,7 @@ const Mutations = {
         }
 
         // Check if legit reset token and Check if its expired
-        const [user] = ctx.db.query.users({
+        const [user] = await ctx.db.query.users({
             where: {
                 resetToken: args.resetToken,
                 resetTokenExpiry_gte: Date.now() - 3600000
