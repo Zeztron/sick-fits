@@ -51,7 +51,7 @@ export default class Signin extends Component {
                                 Password
                                 <input type="password" name="password" placeholder="Password" value={this.state.password} onChange={this.saveToState} />
                             </label>
-                            <button type="submit">Sign In!</button>
+                            <button type="submit">Sign{loading ? 'ing' : ''} In!</button>
                         </fieldset>
                     </Form>
                 )}
