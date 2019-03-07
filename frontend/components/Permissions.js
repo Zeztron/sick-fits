@@ -3,6 +3,7 @@ import gql from 'graphql-tag';
 import Error from './ErrorMessage';
 import Table from './styles/Table';
 import SickButton from './styles/SickButton';
+import PropTypes from 'prop-types';
 
 const possiblePermissions = [
     'ADMIN',
@@ -37,12 +38,12 @@ const Permissions = (props) => (
                             <tr>
                                 <th>Name</th>
                                 <th>Email</th>
-                                {possiblePermissions.map(permission => <th>{permission}</th>)}
+                                {possiblePermissions.map(permission => <th key={permission}>{permission}</th>)}
                                 <th>👇</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {data.users.map(user => <User user={user}/>)}
+                            {data.users.map(user => <UserPermissions user={user} key={user.id}/>)}
                         </tbody>
                     </Table>
                 </div>
@@ -51,7 +52,35 @@ const Permissions = (props) => (
     </Query>
 );
 
-class User extends React.Component {
+class UserPermissions extends React.Component {
+    static propTypes = {
+        user: PropTypes.shape({
+            name: PropTypes.string,
+            email: PropTypes.string,
+            id: PropTypes.string,
+            permissions: PropTypes.array
+        }).isRequired
+    };
+
+    handlePermissionChange = e => {
+        const checkbox = e.target;
+        // take a copy of the current permissions
+        let updatedPermissions = [...this.state.permissions];
+        // figure out if we need to remove or add this permission
+        if (checkbox.checked) {
+            // add it in
+            updatedPermissions.push(checkbox.value);
+        } else {
+            updatedPermissions = updatedPermissions.filter(permission => permission !== checkbox.value);
+        }
+
+        this.setState({ permissions: updatedPermissions });
+    }
+
+    state = {
+        permissions: this.props.user.permissions
+    };
+
     render() {
         const user= this.props.user;
         return (
@@ -59,9 +88,15 @@ class User extends React.Component {
                 <td>{user.name}</td>
                 <td>{user.email}</td>
                 {possiblePermissions.map(permission => (
-                    <td>
+                    <td key={permission}>
                         <label htmlFor={`${user.id}-permission-${permission}`}>
-                            <input type="checkbox"/>
+                            <input 
+                                id={`${user.id}-permission-${permission}`}
+                                type="checkbox" 
+                                checked={this.state.permissions.includes(permission)}
+                                value={permission}
+                                onChange={this.handlePermissionChange}
+                            />
                         </label>
                     </td>
                 ))}
@@ -70,7 +105,7 @@ class User extends React.Component {
                 </td>
             </tr>
         )
-    }
+    };
 }
 
 export default Permissions;
