@@ -13,7 +13,7 @@ const AnimationStyles = styled.span`
     }
     /* Initial state of the endtered Dot */
     .count-enter {
-        transform: rotateX(0.5turn);
+        transform: scale(4) rotateX(0.5turn);
     }
 
     .count-enter-active {
@@ -27,7 +27,7 @@ const AnimationStyles = styled.span`
     }
 
     .count-exit-active {
-        transform: rotateX(0.5turn);        
+        transform: scale(4) rotateX(0.5turn);        
     }
 `;
 
