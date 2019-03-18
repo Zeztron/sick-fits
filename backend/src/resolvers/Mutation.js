@@ -293,6 +293,7 @@ const Mutations = {
                     id 
                     description 
                     image
+                    largeImage
                 }
             }
         }`)
@@ -306,12 +307,35 @@ const Mutations = {
             source: args.token
         });
         // Convert the cartitems to orderitems
-        
+        const orderItems = user.cart.map(cartItem => {
+            const orderItem = {
+                ...cartItem.item,
+                quantity: cartItem.quantity,
+                user: { connect: { id: userId }},
+            };
+            delete orderItem.id;
+            return orderItem;
+        });
         // create the Order
+        const order = await ctx.db.mutation.createOrder({
+            data: {
+                total: charge.amount,
+                charge: charge.id,
+                items: { create: orderItems },
+                user: { connect: { id: userId }}
+            }
+        });
 
         // Clean up - Clear the users cart, delete CartItems
+        const cartItemIds = user.cart.map(cartItem => cartItem.id);
+        await ctx.db.mutation.deleteManyCartItems({ 
+            where: {
+                id_in: cartItemIds
+            }
+        });
 
         // Return the Order to the client
+        return order;
     }
 };
 
